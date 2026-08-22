@@ -1,5 +1,6 @@
 package com.SpringPartTwo.LearningRESTAPIs.service.impl;
 
+import com.SpringPartTwo.LearningRESTAPIs.dto.AddStudentRequestDto;
 import com.SpringPartTwo.LearningRESTAPIs.dto.StudentDto;
 import com.SpringPartTwo.LearningRESTAPIs.intity.Student;
 import com.SpringPartTwo.LearningRESTAPIs.repository.StudentRepository;
@@ -31,4 +32,12 @@ public class StudentServiceImpl implements StudentService {
         Student student = studentRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("Student not found with ID: "+id));
         return modelMapper.map(student, StudentDto.class);
     }
+
+    @Override
+    public StudentDto createNewStudent(AddStudentRequestDto addStudentRequestDto){
+        Student newStudent = modelMapper.map(addStudentRequestDto, Student.class);
+        Student student = studentRepository.save(newStudent);
+        return modelMapper.map(student, StudentDto.class);
+    }
 }
+
