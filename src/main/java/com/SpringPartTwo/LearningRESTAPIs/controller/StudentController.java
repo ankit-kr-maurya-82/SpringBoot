@@ -2,8 +2,6 @@ package com.SpringPartTwo.LearningRESTAPIs.controller;
 
 import com.SpringPartTwo.LearningRESTAPIs.dto.AddStudentRequestDto;
 import com.SpringPartTwo.LearningRESTAPIs.dto.StudentDto;
-import com.SpringPartTwo.LearningRESTAPIs.intity.Student;
-import com.SpringPartTwo.LearningRESTAPIs.repository.StudentRepository;
 import com.SpringPartTwo.LearningRESTAPIs.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -12,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,5 +32,21 @@ public class StudentController {
     @PostMapping
     public ResponseEntity<StudentDto> createNewStudent(@RequestBody AddStudentRequestDto addStudentRequestDto){
         return ResponseEntity.status(HttpStatus.CREATED).body(studentService.createNewStudent(addStudentRequestDto));
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteStudent(@PathVariable Long id){
+        studentService.deleteStudentById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<StudentDto> updateStudent(@PathVariable Long id, @RequestBody AddStudentRequestDto addStudentRequestDto){
+        return ResponseEntity.ok(studentService.updateStudent(id, addStudentRequestDto));
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<StudentDto> updatePartialStudent(@PathVariable Long id, @RequestBody Map
+            <String, Object> updates){
+        return ResponseEntity.ok(studentService.updatePartialStudent(id, updates));
     }
 }
